@@ -4,16 +4,15 @@ import java.util.HashMap;
 
 public class ControleCliente {
 	private HashMap<String, Cliente> clientesCadastrados;
+	private ArrayList<Cliente> clientesNaCasa;
+	
 	public HashMap<String, Cliente> getClientesCadastrados() {
 		return clientesCadastrados;
 	}
-
+	
 	public ArrayList<Cliente> getClientesNaCasa() {
 		return clientesNaCasa;
 	}
-
-	private ArrayList<Cliente> clientesNaCasa;
-	
 	public ControleCliente(){
 		clientesCadastrados = new HashMap<>();
 		clientesNaCasa = new ArrayList<>();
@@ -27,9 +26,17 @@ public class ControleCliente {
 		
 	}
 
-	public void liberaAcessoCliente(Cliente cliente) {
+	public void liberaAcessoCliente(int i) {
+		
+	}
+
+	public void liberaAcessoClienteSemCadastro(Cliente cliente) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public Cliente buscaClienteCadastrado(int cpf){
+		return clientesCadastrados.get(cpf);
 	}
 	
 }

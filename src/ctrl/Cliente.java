@@ -5,12 +5,14 @@ public class Cliente {
 	private String cpf;
 	private int nrSocio;
 	private int idade;
+	private Genero genero;
 	
-	public Cliente(String nome, String cpf, int nrSocio, int idade) {
+	public Cliente(String nome, String cpf, int nrSocio, int idade, Genero sexo) {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.nrSocio = nrSocio;
 		this.idade = idade;
+		this.genero = sexo;
 	}
 	
 	public String getNome() {

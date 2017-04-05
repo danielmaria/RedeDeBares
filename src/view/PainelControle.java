@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import ctrl.ControleCliente;
+
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -17,6 +20,7 @@ public class PainelControle extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private ControleCliente controle;
 
 	/**
 	 * Launch the application.
@@ -38,6 +42,8 @@ public class PainelControle extends JFrame {
 	 * Create the frame.
 	 */
 	public PainelControle() {
+		controle = new ControleCliente();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 320);
 		contentPane = new JPanel();
@@ -49,8 +55,7 @@ public class PainelControle extends JFrame {
 		btnLiberarSada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					LiberacaoSaida frame = new LiberacaoSaida();
-					setEnabled(false);
+					LiberacaoSaida frame = new LiberacaoSaida(controle);
 					frame.setVisible(true);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -65,8 +70,7 @@ public class PainelControle extends JFrame {
 		btnLiberarEntrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					LiberacaoEntrada frame = new LiberacaoEntrada();
-					setEnabled(false);
+					LiberacaoEntrada frame = new LiberacaoEntrada(controle);
 					frame.setVisible(true);
 				} catch (Exception e1) {
 					e1.printStackTrace();

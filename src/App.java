@@ -1,5 +1,7 @@
 import java.awt.EventQueue;
 
+import view.PainelControle;
+
 public class App {
 
 	public static void main(String[] args) {

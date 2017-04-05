@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import ctrl.Cliente;
+import ctrl.ControleCliente;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.util.Vector;
@@ -25,8 +29,10 @@ public class LiberacaoEntrada extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param controle 
 	 */
-	public LiberacaoEntrada() {
+	public LiberacaoEntrada(ControleCliente c) {
+		ControleCliente controle = c;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -45,6 +51,11 @@ public class LiberacaoEntrada extends JFrame {
 		textNmSocio.setColumns(10);
 		
 		JButton btnBuscarScio = new JButton("Buscar s\u00F3cio");
+		btnBuscarScio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnBuscarScio.setBounds(302, 10, 118, 25);
 		contentPane.add(btnBuscarScio);
 		
@@ -83,7 +94,11 @@ public class LiberacaoEntrada extends JFrame {
 		JButton btnLiberarEntrada = new JButton("Liberar Entrada");
 		btnLiberarEntrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				String nome = textFieldNome.getText();
+				String cpf = textFieldCPF.getText();
+				int idade = comboBoxIdade.getSelectedIndex();
+				Cliente cliente = new Cliente(nome, cpf, 0, idade, null);
+				controle.liberaAcessoClienteSemCadastro(cliente);
 			}
 		});
 		btnLiberarEntrada.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -91,9 +106,19 @@ public class LiberacaoEntrada extends JFrame {
 		contentPane.add(btnLiberarEntrada);
 		
 		JButton btnCadastrarScioE = new JButton("Cadastrar s\u00F3cio e Liberar Entrada");
+		btnCadastrarScioE.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nome = textFieldNome.getText();
+				String cpf = textFieldCPF.getText();
+				int idade = comboBoxIdade.getSelectedIndex();
+				Cliente cliente = new Cliente(nome, cpf, 0, idade, null);
+				controle.cadastraCliente(cliente);
+			}
+		});
 		btnCadastrarScioE.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnCadastrarScioE.setBounds(25, 172, 395, 57);
 		contentPane.add(btnCadastrarScioE);
+
 	}
 
 	private Vector iniciarComboBoxIdade() {
