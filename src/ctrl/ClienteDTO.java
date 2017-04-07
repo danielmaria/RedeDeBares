@@ -1,15 +1,18 @@
+package ctrl;
 
-public class Cliente {
+public class ClienteDTO {
 	private String nome;
 	private String cpf;
 	private int nrSocio;
 	private int idade;
+	private Genero genero;
 	
-	public Cliente(String nome, String cpf, int nrSocio, int idade) {
+	public ClienteDTO(String nome, String cpf, int idade, Genero sexo, int totalClientesCadastrados) {
 		this.nome = nome;
 		this.cpf = cpf;
-		this.nrSocio = nrSocio;
 		this.idade = idade;
+		this.genero = sexo;
+		this.nrSocio = totalClientesCadastrados + 1;
 	}
 	
 	public String getNome() {
@@ -36,5 +39,14 @@ public class Cliente {
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
+	
+	public Genero getGenero() {
+		return genero;
+	}
+
+	public void setGenero(Genero genero) {
+		this.genero = genero;
+	}
+	
 	
 }

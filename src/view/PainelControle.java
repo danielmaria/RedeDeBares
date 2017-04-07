@@ -5,38 +5,44 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
+import ctrl.ClienteDTO;
 import ctrl.ControleCliente;
+import utils.Utils;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 
 public class PainelControle extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField textFieldCPF;
 	private ControleCliente controle;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PainelControle frame = new PainelControle();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					PainelControle frame = new PainelControle();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -93,10 +99,12 @@ public class PainelControle extends JFrame {
 		
 		JProgressBar progressBarMasculino = new JProgressBar();
 		progressBarMasculino.setBounds(203, 125, 146, 14);
+		progressBarMasculino.setStringPainted(true);
 		contentPane.add(progressBarMasculino);
 		
 		JProgressBar progressBarFemino = new JProgressBar();
 		progressBarFemino.setBounds(203, 157, 146, 14);
+		progressBarFemino.setStringPainted(true);
 		contentPane.add(progressBarFemino);
 		
 		JLabel lblPercentualMaculino = new JLabel("Percentual maculino");
@@ -116,20 +124,48 @@ public class PainelControle extends JFrame {
 		
 		JProgressBar progressBarSocios = new JProgressBar();
 		progressBarSocios.setBounds(203, 188, 146, 14);
+		progressBarSocios.setStringPainted(true);
 		contentPane.add(progressBarSocios);
 		
-		textField = new JTextField();
-		textField.setBounds(75, 226, 116, 22);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		MaskFormatter maskCpf = null;
+		try {
+			maskCpf = new MaskFormatter("###.###.###-##");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		textFieldCPF = new JFormattedTextField(maskCpf);
+		textFieldCPF.setBounds(75, 226, 116, 22);
+		contentPane.add(textFieldCPF);
+		textFieldCPF.setColumns(10);
 		
 		JLabel lblCpf = new JLabel("CPF:");
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCpf.setBounds(32, 228, 39, 16);
 		contentPane.add(lblCpf);
 		
+		
+		
 		JButton btnConsultarCpf = new JButton("Consultar CPF");
-		btnConsultarCpf.setBounds(203, 225, 113, 25);
+		btnConsultarCpf.setBounds(203, 225, 150, 25);
 		contentPane.add(btnConsultarCpf);
+		
+		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				labelMostraQuantidade.setText(String.valueOf(controle.getClientesNaCasa().size()));
+				int totalPublicoNaCasa = controle.getClientesNaCasa().size();
+				int totalPublicoMasculino = controle.qtdClientesMasc();
+				int totalPublicoFemino = totalPublicoNaCasa - totalPublicoMasculino;
+				int totalSociosNaCasa = controle.qtdClientesSocios();
+				progressBarFemino.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalPublicoFemino));
+				progressBarMasculino.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalPublicoMasculino));
+				progressBarSocios.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalSociosNaCasa));
+				progressBarFemino.setStringPainted(true);
+			}
+		});
+		btnAtualizar.setBounds(275, 255, 100, 25);
+		contentPane.add(btnAtualizar);
 	}
 }

@@ -5,8 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
-import ctrl.Cliente;
+import ctrl.ClienteDTO;
 import ctrl.ControleCliente;
 
 import javax.swing.BoxLayout;
@@ -14,9 +15,11 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 
 public class LiberacaoSaida extends JFrame {
 
@@ -57,8 +60,15 @@ public class LiberacaoSaida extends JFrame {
 		lblCpf.setBounds(12, 28, 43, 16);
 		contentPane.add(lblCpf);
 		
-		textFieldCPF = new JTextField();
-		textFieldCPF.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		MaskFormatter maskCpf = null;
+		try {
+			maskCpf = new MaskFormatter("###.###.###-##");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		textFieldCPF = new JFormattedTextField(maskCpf);
 		textFieldCPF.setBounds(67, 26, 169, 22);
 		contentPane.add(textFieldCPF);
 		textFieldCPF.setColumns(10);
