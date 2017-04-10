@@ -28,25 +28,6 @@ public class PainelControle extends JFrame {
 	private JTextField textFieldCPF;
 	private ControleCliente controle;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					PainelControle frame = new PainelControle();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public PainelControle() {
 		controle = new ControleCliente();
 		
@@ -127,13 +108,7 @@ public class PainelControle extends JFrame {
 		progressBarSocios.setStringPainted(true);
 		contentPane.add(progressBarSocios);
 		
-		MaskFormatter maskCpf = null;
-		try {
-			maskCpf = new MaskFormatter("###.###.###-##");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		MaskFormatter maskCpf = Utils.formatadorCPF();
 		
 		textFieldCPF = new JFormattedTextField(maskCpf);
 		textFieldCPF.setBounds(75, 226, 116, 22);
@@ -144,8 +119,6 @@ public class PainelControle extends JFrame {
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblCpf.setBounds(32, 228, 39, 16);
 		contentPane.add(lblCpf);
-		
-		
 		
 		JButton btnConsultarCpf = new JButton("Consultar CPF");
 		btnConsultarCpf.setBounds(203, 225, 150, 25);

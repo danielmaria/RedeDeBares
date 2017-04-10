@@ -1,8 +1,7 @@
 package ctrl;
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
+import utils.Mensagem;
 
 public class ControleCliente {
 	private HashMap<String, ClienteDTO> clientesCadastrados;
@@ -32,9 +31,8 @@ public class ControleCliente {
 	public void liberaSaidaCliente(String cpf){
 		ClienteDTO c = clientesNaCasa.remove(cpf);
 		if (c == null){
-			JOptionPane.showMessageDialog(null, "Cliente não encontrado com este CPF na casa" ,"Atenção!",JOptionPane.INFORMATION_MESSAGE);
+			Mensagem.avisoMensagemCPFNaoEncontrado();
 		} 
-		
 	}
 
 	public void liberaAcessoCliente(ClienteDTO cliente) {

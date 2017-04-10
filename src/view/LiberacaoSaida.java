@@ -9,6 +9,7 @@ import javax.swing.text.MaskFormatter;
 
 import ctrl.ClienteDTO;
 import ctrl.ControleCliente;
+import utils.Utils;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -26,25 +27,6 @@ public class LiberacaoSaida extends JFrame {
 	private JPanel contentPane;
 	private JTextField textFieldCPF;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					LiberacaoSaida frame = new LiberacaoSaida();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public LiberacaoSaida(ControleCliente c) {
 		ControleCliente controle = c;
 		
@@ -60,13 +42,7 @@ public class LiberacaoSaida extends JFrame {
 		lblCpf.setBounds(12, 28, 43, 16);
 		contentPane.add(lblCpf);
 		
-		MaskFormatter maskCpf = null;
-		try {
-			maskCpf = new MaskFormatter("###.###.###-##");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		MaskFormatter maskCpf = Utils.formatadorCPF();
 		
 		textFieldCPF = new JFormattedTextField(maskCpf);
 		textFieldCPF.setBounds(67, 26, 169, 22);

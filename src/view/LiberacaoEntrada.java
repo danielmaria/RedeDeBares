@@ -1,33 +1,25 @@
 package view;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import ctrl.ClienteDTO;
 import ctrl.ControleCliente;
 import ctrl.Genero;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.util.Vector;
-
-import javax.swing.JTextField;
-import javax.swing.ComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
-
-import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.awt.event.ActionEvent;
-
+import utils.Mensagem;
 import utils.Utils;
+import utils.Validador;
 
 public class LiberacaoEntrada extends JFrame {
 
@@ -77,13 +69,7 @@ public class LiberacaoEntrada extends JFrame {
 		lblCpf.setBounds(25, 71, 69, 16);
 		contentPane.add(lblCpf);
 		
-		MaskFormatter maskCpf = null;
-		try {
-			maskCpf = new MaskFormatter("###.###.###-##");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		MaskFormatter maskCpf = Utils.formatadorCPF();
 		
 		textFieldCPF = new JFormattedTextField(maskCpf);
 		textFieldCPF.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -96,7 +82,7 @@ public class LiberacaoEntrada extends JFrame {
 		lblIdade.setBounds(221, 71, 56, 16);
 		contentPane.add(lblIdade);
 		
-		JComboBox comboBoxIdade = new JComboBox(iniciarComboBoxIdade());
+		JComboBox<Integer> comboBoxIdade = new JComboBox<Integer>(iniciarComboBoxIdade());
 		comboBoxIdade.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		comboBoxIdade.setBounds(269, 69, 56, 22);
 		contentPane.add(comboBoxIdade);
@@ -106,7 +92,7 @@ public class LiberacaoEntrada extends JFrame {
 		lblGenero.setBounds(330, 71, 56, 16);
 		contentPane.add(lblGenero);
 		
-		JComboBox comboGenero = new JComboBox();
+		JComboBox<String> comboGenero = new JComboBox<String>();
 		comboGenero.addItem("Masculino");
 		comboGenero.addItem("Feminino");
 		comboGenero.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -125,7 +111,7 @@ public class LiberacaoEntrada extends JFrame {
 					controle.liberaAcessoCliente(cliente);
 					dispose();
 				} else {
-					JOptionPane.showMessageDialog(null, "Este campo só  recebe caracteres" ,"Informação!",JOptionPane.INFORMATION_MESSAGE); 
+					Mensagem.erroCampoSoRecebeLetras();
 				}
 			}
 		});
@@ -142,12 +128,12 @@ public class LiberacaoEntrada extends JFrame {
 					int idade = comboBoxIdade.getSelectedIndex();
 					Genero g = Genero.masculinoOuFemino((String) comboGenero.getSelectedItem()) ;
 					int totalClientesCadastrados = controle.getClientesCadastrados().size();
-					ClienteDTO cliente = new ClienteDTO(nome, cpf, idade, g, totalClientesCadastrados);
+					ClienteDTO cliente = new ClienteDTO(nome, cpf, idade, g, Validador.geraNrSocio(totalClientesCadastrados));
 					controle.cadastraCliente(cliente);
-					JOptionPane.showMessageDialog(null, "Cliente Cadastrado" ,"Sucesso!",JOptionPane.INFORMATION_MESSAGE);
+					Mensagem.avisoClienteCadastradoComSucesso();
 					dispose();
 				} else{
-					JOptionPane.showMessageDialog(null, "Este campo só caracteres" ,"Informação!",JOptionPane.INFORMATION_MESSAGE);
+					Mensagem.erroCampoSoRecebeLetras();
 				}
 			}
 		});
@@ -173,9 +159,9 @@ public class LiberacaoEntrada extends JFrame {
 		
 	}
 
-	private Vector iniciarComboBoxIdade() {
+	private Vector<Integer> iniciarComboBoxIdade() {
 		int idade = 0;
-		Vector vetor = new Vector();
+		Vector<Integer> vetor = new Vector<Integer>();
 		while (idade <= 100){
 			vetor.add(idade);
 			idade++;

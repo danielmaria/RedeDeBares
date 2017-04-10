@@ -10,15 +10,15 @@ public class Utils {
 			double porcentagem;
 			porcentagem = (qtdParaVerificar * 100) / total;
 			return (int) Math.ceil((double)porcentagem);
-		} 
+		}
+		Mensagem.mostraMensagemNaoContemNinguem();
 		return 0;
 	}
-	public static MaskFormatter formataCPF(){
+	public static MaskFormatter formatadorCPF(){
 		MaskFormatter cpf = null;
 		try {
 			cpf = new MaskFormatter("###.###.###-##");
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return cpf;
