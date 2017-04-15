@@ -9,7 +9,11 @@ import javax.swing.text.MaskFormatter;
 
 import ctrl.ClienteDTO;
 import ctrl.ControleCliente;
+import ctrl.Genero;
+import dao.Conexao;
+import utils.Mensagem;
 import utils.Utils;
+import utils.Validador;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -27,10 +31,11 @@ public class PainelControle extends JFrame {
 	private JPanel contentPane;
 	private JTextField textFieldCPF;
 	private ControleCliente controle;
+	private Conexao conexao = new Conexao();
 
 	public PainelControle() {
 		controle = new ControleCliente();
-		
+		controle.setClientesCadastrados(conexao.carregaArquivoDadosTabelaCliente());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 320);
 		contentPane = new JPanel();
@@ -121,6 +126,16 @@ public class PainelControle extends JFrame {
 		contentPane.add(lblCpf);
 		
 		JButton btnConsultarCpf = new JButton("Consultar CPF");
+		btnConsultarCpf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ClienteDTO c = controle.buscaClienteNaCasa(Validador.retiraSinaisCPF(textFieldCPF.getText()));
+				if (c != null){
+					Mensagem.avisoClienteEncontradoNaCasa();
+				} else {
+					Mensagem.avisoClienteNaoEncontradoNaCasa();
+				}
+			}
+		});
 		btnConsultarCpf.setBounds(203, 225, 150, 25);
 		contentPane.add(btnConsultarCpf);
 		

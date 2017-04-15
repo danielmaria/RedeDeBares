@@ -1,11 +1,13 @@
 package ctrl;
 import java.util.HashMap;
 
+import dao.Conexao;
 import utils.Mensagem;
 
 public class ControleCliente {
 	private HashMap<String, ClienteDTO> clientesCadastrados;
 	private HashMap<String, ClienteDTO> clientesNaCasa;
+	private Conexao conexao = new Conexao();
 	
 	public HashMap<String, ClienteDTO> getClientesCadastrados() {
 		return clientesCadastrados;
@@ -15,13 +17,14 @@ public class ControleCliente {
 		return clientesNaCasa;
 	}
 	public ControleCliente(){
-		clientesCadastrados = new HashMap<>();
+		setClientesCadastrados(new HashMap<>());
 		clientesNaCasa = new HashMap<>();
 	}
 	
 	public void cadastraCliente(ClienteDTO cliente){
 		if (buscaClienteCadastrado(cliente.getCpf()) == null){
-			clientesCadastrados.put(cliente.getCpf(), cliente);
+			getClientesCadastrados().put(cliente.getCpf(), cliente);
+			conexao.salvaDadosTabelaCliente(cliente);
 			liberaAcessoCliente(cliente);
 		} else {
 			liberaAcessoCliente(cliente);
@@ -31,7 +34,7 @@ public class ControleCliente {
 	public void liberaSaidaCliente(String cpf){
 		ClienteDTO c = clientesNaCasa.remove(cpf);
 		if (c == null){
-			Mensagem.avisoMensagemCPFNaoEncontrado();
+			Mensagem.avisoMensagemCPFNaoEncontradoEmClientesNaCasa();
 		} 
 	}
 
@@ -40,7 +43,11 @@ public class ControleCliente {
 	}
 	
 	public ClienteDTO buscaClienteCadastrado(String cpf){
-		return clientesCadastrados.get(cpf);
+		return getClientesCadastrados().get(cpf);
+	}
+	
+	public ClienteDTO buscaClienteNaCasa(String cpf){
+		return getClientesNaCasa().get(cpf);
 	}
 
 	public int qtdClientesMasc() {
@@ -56,11 +63,15 @@ public class ControleCliente {
 	public int qtdClientesSocios() {
 		int cont = 0;
 		for (ClienteDTO clienteDTO : clientesNaCasa.values()) {
-			if(clientesCadastrados.containsKey(clienteDTO.getCpf())){
+			if(getClientesCadastrados().containsKey(clienteDTO.getCpf())){
 					cont++;
 				}
 			}
 			return cont;
+	}
+
+	public void setClientesCadastrados(HashMap<String, ClienteDTO> clientesCadastrados) {
+		this.clientesCadastrados = clientesCadastrados;
 	}
 	
 }

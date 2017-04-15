@@ -25,27 +25,4 @@ public class UtilsTeste {
 		assertEquals(2, aux);
 	}
 	
-	@Test
-	public void testeContemNumeroComCaracteresEspeciais() {
-		boolean b = Utils.naoContemNumero(",.+-*/[]/;^´-.!@#$%¨&¹²³£¢¬");
-		assertTrue(b);
-	}
-	
-	@Test
-	public void testeContemNumeroNoMeioDeString() {
-		boolean b = Utils.naoContemNumero("Tes4te");
-		assertFalse(b);
-	}
-	
-	@Test
-	public void testeContemNumeroNasPontasDaString() {
-		boolean b = Utils.naoContemNumero("4Teste4");
-		assertFalse(b);
-	}
-	
-	@Test
-	public void testeContemNumeroNasPontasDaStringComEspacos() {
-		boolean b = Utils.naoContemNumero(" Teste 4 Teste");
-		assertFalse(b);
-	}
 }

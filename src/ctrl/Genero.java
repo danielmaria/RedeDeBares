@@ -13,9 +13,9 @@ public enum Genero {
 	}
 	
 	public static Genero masculinoOuFemino(String descricao){
-		if (descricao.equals("Masculino")){
+		if (descricao.equals("Masculino") || descricao.equals("M")){
 			return Genero.M;
-		} else if (descricao.equals("Feminino")){
+		} else if (descricao.equals("Feminino") || descricao.equals("F")){
 			return Genero.F;
 		}
 		return null;

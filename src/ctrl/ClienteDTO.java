@@ -1,5 +1,6 @@
 package ctrl;
 
+import utils.Mensagem;
 import utils.Validador;
 
 public class ClienteDTO {
@@ -17,6 +18,7 @@ public class ClienteDTO {
 			this.genero = sexo;
 			this.nrSocio = id;
 		} else {
+			Mensagem.erroCamposInvalidos();
 			throw new IllegalArgumentException();
 		}
 		

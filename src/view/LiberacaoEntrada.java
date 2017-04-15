@@ -17,6 +17,7 @@ import javax.swing.text.MaskFormatter;
 import ctrl.ClienteDTO;
 import ctrl.ControleCliente;
 import ctrl.Genero;
+import dao.Conexao;
 import utils.Mensagem;
 import utils.Utils;
 import utils.Validador;
@@ -27,6 +28,7 @@ public class LiberacaoEntrada extends JFrame {
 	private JTextField textNmSocio;
 	private JTextField textFieldNome;
 	private JTextField textFieldCPF;
+	private Conexao conexao;
 
 	/**
 	 * Create the frame.
@@ -58,7 +60,9 @@ public class LiberacaoEntrada extends JFrame {
 		lblNome.setBounds(25, 42, 56, 16);
 		contentPane.add(lblNome);
 		
-		textFieldNome = new JTextField();
+		MaskFormatter maskNome = Utils.formatadorNome();
+		
+		textFieldNome = new JFormattedTextField(maskNome);
 		textFieldNome.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textFieldNome.setBounds(93, 40, 327, 22);
 		contentPane.add(textFieldNome);
@@ -103,16 +107,12 @@ public class LiberacaoEntrada extends JFrame {
 		btnLiberarEntrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nome = textFieldNome.getText();
-				if (Utils.naoContemNumero(nome)){
-					String cpf = textFieldCPF.getText();
-					int idade = comboBoxIdade.getSelectedIndex();
-					Genero g = Genero.masculinoOuFemino((String) comboGenero.getSelectedItem()) ;
-					ClienteDTO cliente = new ClienteDTO(nome, cpf, idade, g, controle.getClientesCadastrados().size());
-					controle.liberaAcessoCliente(cliente);
-					dispose();
-				} else {
-					Mensagem.erroCampoSoRecebeLetras();
-				}
+				String cpf = Validador.retiraSinaisCPF(textFieldCPF.getText());
+				int idade = comboBoxIdade.getSelectedIndex();
+				Genero g = Genero.masculinoOuFemino((String) comboGenero.getSelectedItem()) ;
+				ClienteDTO cliente = new ClienteDTO(nome, cpf, idade, g, controle.getClientesCadastrados().size());
+				controle.liberaAcessoCliente(cliente);
+				dispose();
 			}
 		});
 		btnLiberarEntrada.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -122,19 +122,20 @@ public class LiberacaoEntrada extends JFrame {
 		JButton btnCadastrarScioE = new JButton("Cadastrar s\u00F3cio e Liberar Entrada");
 		btnCadastrarScioE.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nome = textFieldNome.getText();
-				if (Utils.naoContemNumero(nome)){
-					String cpf = textFieldCPF.getText();
-					int idade = comboBoxIdade.getSelectedIndex();
-					Genero g = Genero.masculinoOuFemino((String) comboGenero.getSelectedItem()) ;
-					int totalClientesCadastrados = controle.getClientesCadastrados().size();
-					ClienteDTO cliente = new ClienteDTO(nome, cpf, idade, g, Validador.geraNrSocio(totalClientesCadastrados));
-					controle.cadastraCliente(cliente);
-					Mensagem.avisoClienteCadastradoComSucesso();
-					dispose();
-				} else{
-					Mensagem.erroCampoSoRecebeLetras();
+				String nome = textFieldNome.getText().trim();
+				String cpf = Validador.retiraSinaisCPF(textFieldCPF.getText());
+				int idade = comboBoxIdade.getSelectedIndex();
+				Genero g = Genero.masculinoOuFemino((String) comboGenero.getSelectedItem());
+				int id = 0;
+				if(textNmSocio.getText().equals("")) {
+					id = Validador.geraNrSocio(controle.getClientesCadastrados().size());
+				} else {
+					id = Integer.parseInt(textNmSocio.getText());
 				}
+				ClienteDTO cliente = new ClienteDTO(nome, cpf, idade, g, id);
+				controle.cadastraCliente(cliente);
+				Mensagem.avisoClienteCadastradoComSucesso(cliente.getNrSocio());
+				dispose();
 			}
 		});
 		btnCadastrarScioE.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -144,13 +145,15 @@ public class LiberacaoEntrada extends JFrame {
 		JButton btnBuscarScio = new JButton("Buscar s\u00F3cio");
 		btnBuscarScio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClienteDTO c = controle.buscaClienteCadastrado(textFieldCPF.getText());
+				ClienteDTO c = controle.buscaClienteCadastrado(Validador.retiraSinaisCPF(textFieldCPF.getText()));
 				if (c != null){
 					textFieldCPF.setText(c.getCpf());
 					textFieldNome.setText(c.getNome());
 					textNmSocio.setText(String.valueOf(c.getNrSocio()));
 					comboBoxIdade.setSelectedItem(c.getIdade());
 					comboGenero.setSelectedIndex(c.getGenero() == Genero.M ? 0 : 1);
+				} else {
+					Mensagem.avisoMensagemCPFNaoEncontrado();
 				}
 			}
 		});

@@ -23,15 +23,17 @@ public class Utils {
 		}
 		return cpf;
 	}
-	public static boolean naoContemNumero(String nome) {
-		char[] c = nome.toCharArray();
-		for (char d : c) {
-			if(!Character.isDigit(d)){
-				continue;
-			} else {
-				return false;
-			}
-		}
-		return true;
+	public static MaskFormatter formatadorNome(){
+		MaskFormatter formatador = null;
+		try {
+			formatador = new MaskFormatter("******************************"); //30 caracteres
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} 
+		formatador.setValidCharacters("qwertyuiopasdfghjklzxcvbnm" +
+	           						  "QWERTYUIOPASDFGHJKLZXCVBNM" +
+	           						  "בגדפץףüח. ");
+		formatador.setPlaceholderCharacter(' ');
+		return formatador;
 	}
 }

@@ -18,9 +18,8 @@ public class Validador {
 		return true;
 	}
 
-	@SuppressWarnings("null")
 	private static boolean validaNome(String nome) {
-		if(nome != null || nome.replaceAll(" ","").length() <= 3){
+		if(nome.replace(" ","").length() <= 3){
 			return false;
 		}
 		return true;
@@ -29,5 +28,9 @@ public class Validador {
 	public static int geraNrSocio(int totalClientesCadastrados) {
 		int numeroGerado = (int) Math.ceil((double) Math.random() * 100000);
 		return Integer.parseInt(String.valueOf(numeroGerado).concat(String.valueOf(totalClientesCadastrados)));
+	}
+	
+	public static String retiraSinaisCPF(String cpf){
+		return cpf.replace("-", "").replace(".", "");
 	}
 }

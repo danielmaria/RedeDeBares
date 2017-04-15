@@ -3,8 +3,12 @@ package utils;
 import javax.swing.JOptionPane;
 
 public class Mensagem {
-	public static void avisoMensagemCPFNaoEncontrado(){
+	public static void avisoMensagemCPFNaoEncontradoEmClientesNaCasa(){
 		JOptionPane.showMessageDialog(null, "Cliente não encontrado com este CPF na casa" ,"Informação!",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void avisoMensagemCPFNaoEncontrado(){
+		JOptionPane.showMessageDialog(null, "Cliente não encontrado com este CPF" ,"Informação!",JOptionPane.WARNING_MESSAGE);
 	}
 	
 	public static void erroCampoSoRecebeLetras(){
@@ -19,7 +23,19 @@ public class Mensagem {
 		JOptionPane.showMessageDialog(null, "O CPF informada não é válido." ,"Atenção!",JOptionPane.ERROR_MESSAGE); 
 	}
 	
-	public static void avisoClienteCadastradoComSucesso(){
-		JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso." ,"Informação!",JOptionPane.WARNING_MESSAGE);
+	public static void avisoClienteCadastradoComSucesso(int id){
+		JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso.\nO número do sócio é: " + id +"." ,"Informação!",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void avisoClienteEncontradoNaCasa(){
+		JOptionPane.showMessageDialog(null, "Cliente se encontra na casa." ,"Informação!",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void avisoClienteNaoEncontradoNaCasa(){
+		JOptionPane.showMessageDialog(null, "Cliente não encontra-se na casa." ,"Informação!",JOptionPane.WARNING_MESSAGE);
+	}
+	
+	public static void erroCamposInvalidos(){
+		JOptionPane.showMessageDialog(null, "Preencha adequadamento as informações do cliente." ,"Informação!",JOptionPane.WARNING_MESSAGE);
 	}
 }
