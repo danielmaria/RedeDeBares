@@ -1,13 +1,16 @@
-package ctrl;
+package business;
 import java.util.HashMap;
 
-import dao.Conexao;
+import persistence.ClienteDTO;
+import persistence.Conexao;
+import utils.Genero;
 import utils.Mensagem;
 
 public class ControleCliente {
 	private HashMap<String, ClienteDTO> clientesCadastrados;
 	private HashMap<String, ClienteDTO> clientesNaCasa;
 	private Conexao conexao = new Conexao();
+
 	
 	public HashMap<String, ClienteDTO> getClientesCadastrados() {
 		return clientesCadastrados;
@@ -25,21 +28,26 @@ public class ControleCliente {
 		if (buscaClienteCadastrado(cliente.getCpf()) == null){
 			getClientesCadastrados().put(cliente.getCpf(), cliente);
 			conexao.salvaDadosTabelaCliente(cliente);
+		} 
 			liberaAcessoCliente(cliente);
-		} else {
-			liberaAcessoCliente(cliente);
-		}
 	}
 	
 	public void liberaSaidaCliente(String cpf){
 		ClienteDTO c = clientesNaCasa.remove(cpf);
 		if (c == null){
 			Mensagem.avisoMensagemCPFNaoEncontradoEmClientesNaCasa();
-		} 
+		} else {
+			conexao.salvaDadosTabelaHistoricoClienteSaida(c);
+		}
 	}
 
 	public void liberaAcessoCliente(ClienteDTO cliente) {
-		clientesNaCasa.put(cliente.getCpf(), cliente);
+		if(buscaClienteNaCasa(cliente.getCpf()) == null){
+			clientesNaCasa.put(cliente.getCpf(), cliente);
+			conexao.salvaDadosTabelaHistoricoClienteEntrada(cliente);
+		} else {
+			Mensagem.avisoClienteEncontradoNaCasa();
+		}
 	}
 	
 	public ClienteDTO buscaClienteCadastrado(String cpf){
@@ -71,7 +79,11 @@ public class ControleCliente {
 	}
 
 	public void setClientesCadastrados(HashMap<String, ClienteDTO> clientesCadastrados) {
-		this.clientesCadastrados = clientesCadastrados;
+		this.clientesCadastrados = conexao.carregaArquivoDadosTabelaCliente();
+	}
+	
+	public void encerraEspediente(){
+		conexao.encerraEspediente(clientesNaCasa);
 	}
 	
 }

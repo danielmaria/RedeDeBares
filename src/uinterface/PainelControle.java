@@ -1,43 +1,35 @@
-package view;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
-
-import ctrl.ClienteDTO;
-import ctrl.ControleCliente;
-import ctrl.Genero;
-import dao.Conexao;
-import utils.Mensagem;
-import utils.Utils;
-import utils.Validador;
+package uinterface;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-
-import java.awt.Font;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.awt.event.ActionEvent;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+
+import business.ControleCliente;
+import persistence.ClienteDTO;
+import utils.Mensagem;
+import utils.Utils;
+import utils.Validador;
 
 public class PainelControle extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldCPF;
 	private ControleCliente controle;
-	private Conexao conexao = new Conexao();
 
 	public PainelControle() {
 		controle = new ControleCliente();
-		controle.setClientesCadastrados(conexao.carregaArquivoDadosTabelaCliente());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 400, 320);
+		setUndecorated(true);
+		setBounds(100, 100, 400, 375);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -147,13 +139,37 @@ public class PainelControle extends JFrame {
 				int totalPublicoMasculino = controle.qtdClientesMasc();
 				int totalPublicoFemino = totalPublicoNaCasa - totalPublicoMasculino;
 				int totalSociosNaCasa = controle.qtdClientesSocios();
-				progressBarFemino.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalPublicoFemino));
-				progressBarMasculino.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalPublicoMasculino));
-				progressBarSocios.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalSociosNaCasa));
+				if (totalPublicoNaCasa != 0){
+					progressBarFemino.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalPublicoFemino));
+					progressBarMasculino.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalPublicoMasculino));
+					progressBarSocios.setValue(Utils.verificaPorcentagem(totalPublicoNaCasa, totalSociosNaCasa));
+				} else {
+					Mensagem.mostraMensagemNaoContemNinguem();
+				}
 				progressBarFemino.setStringPainted(true);
 			}
 		});
 		btnAtualizar.setBounds(275, 255, 100, 25);
 		contentPane.add(btnAtualizar);
+		
+		JButton btnRelatorio = new JButton("Visualizar Relatório");
+		btnRelatorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Relatorio frame = new Relatorio();
+				frame.setVisible(true);
+			}
+		});
+		btnRelatorio.setBounds(230, 285, 145, 25);
+		contentPane.add(btnRelatorio);
+		
+		JButton btnFechar = new JButton("Encerrar dia");
+		btnFechar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controle.encerraEspediente();
+				System.exit(0);
+			}
+		});
+		btnFechar.setBounds(230, 315, 145, 25);
+		contentPane.add(btnFechar);
 	}
 }

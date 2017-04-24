@@ -1,13 +1,13 @@
-package test;
+package tests;
 
-import static org.junit.Assert.*;
-
-import java.text.ParseException;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ctrl.*;
+import business.ControleCliente;
+import persistence.ClienteDTO;
+import utils.Genero;
 
 public class ControleTeste {
 

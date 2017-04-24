@@ -1,7 +1,6 @@
 import java.awt.EventQueue;
 
-import utils.Validador;
-import view.PainelControle;
+import uinterface.PainelControle;
 
 public class App {
 

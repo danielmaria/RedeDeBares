@@ -1,26 +1,19 @@
-package view;
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
-
-import ctrl.ClienteDTO;
-import ctrl.ControleCliente;
-import utils.Utils;
-
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
+package uinterface;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
+
+import business.ControleCliente;
+import utils.Utils;
 
 public class LiberacaoSaida extends JFrame {
 
@@ -31,6 +24,7 @@ public class LiberacaoSaida extends JFrame {
 		ControleCliente controle = c;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setUndecorated(true);
 		setBounds(100, 100, 430, 150);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

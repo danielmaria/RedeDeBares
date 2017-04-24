@@ -1,4 +1,4 @@
-package view;
+package uinterface;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,10 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
-import ctrl.ClienteDTO;
-import ctrl.ControleCliente;
-import ctrl.Genero;
-import dao.Conexao;
+import business.ControleCliente;
+import persistence.ClienteDTO;
+import utils.Genero;
 import utils.Mensagem;
 import utils.Utils;
 import utils.Validador;
@@ -28,7 +27,6 @@ public class LiberacaoEntrada extends JFrame {
 	private JTextField textNmSocio;
 	private JTextField textFieldNome;
 	private JTextField textFieldCPF;
-	private Conexao conexao;
 
 	/**
 	 * Create the frame.
@@ -37,6 +35,7 @@ public class LiberacaoEntrada extends JFrame {
 	public LiberacaoEntrada(ControleCliente c) {
 		ControleCliente controle = c;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setUndecorated(true);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

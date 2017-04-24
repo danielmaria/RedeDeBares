@@ -1,6 +1,8 @@
-package ctrl;
+package persistence;
 
+import utils.Genero;
 import utils.Mensagem;
+import utils.Utils;
 import utils.Validador;
 
 public class ClienteDTO {
@@ -12,7 +14,7 @@ public class ClienteDTO {
 	
 	public ClienteDTO(String nome, String cpf, int idade, Genero sexo, int id) {
 		if(Validador.validaCliente(nome, cpf)){
-			this.nome = formataNomeComposto(nome);
+			this.nome = Utils.formataNomeComposto(nome);
 			this.cpf = cpf;
 			this.idade = idade;
 			this.genero = sexo;
@@ -23,6 +25,7 @@ public class ClienteDTO {
 		}
 		
 	}
+	public ClienteDTO(){}
 	
 	public String getNome() {
 		return nome;
@@ -57,27 +60,4 @@ public class ClienteDTO {
 		this.genero = genero;
 	}
 	
-	private String formataNomeComposto(String nome){
-		StringBuilder nomeCompleto = new StringBuilder();
-		for (String string : nome.split(" ")) {
-			if(igualALigacao(nome)){
-				nomeCompleto.append(nome);
-			} else {
-				nomeCompleto.append(string.substring(0, 1).toUpperCase());
-				nomeCompleto.append(string.substring(1, string.length()).toLowerCase());
-			}
-			nomeCompleto.append(" ");
-		}
-		return nomeCompleto.toString().trim();
-	}
-	
-	private boolean igualALigacao(String nome){
-		String[] ligacoes = {"do", "da", "o", "dos"};
-		for (String s : ligacoes) {
-			if (nome.equals(s)){
-				return true;
-			}
-		}
-		return false;
-	}
 }
